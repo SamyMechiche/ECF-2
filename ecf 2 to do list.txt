@@ -1,0 +1,10 @@
+ecf 2 to do list
+
+form login
+page de connexion
+
+page d'accueil: menu (tâches en cours, tâches terminées, prochaines tâches)
+
+pour chaque tâches -> nom + description + qui participe + date limite + bouton d'ajout de membre + bouton de fin de tâche 
+
+ 
