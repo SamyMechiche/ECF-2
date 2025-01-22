@@ -1,0 +1,236 @@
+@font-face {
+    font-family: 'CercoDEMO-Bold';
+    src: url(../font/CercoDEMO-Bold.otf);
+}
+
+@font-face {
+    font-family: 'CercoDEMO-Light';
+    src: url(../font/CercoDEMO-Light.otf);
+}
+
+@font-face {
+    font-family: 'CercoDEMO-Regular';
+    src: url(../font/CercoDEMO-Regular.otf);
+}
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+}
+
+.green {
+    color: #4CAF50;
+}
+
+.blue {
+    color: #2196F3;
+}
+
+.cerco {
+    font-family: 'CercoDEMO-Bold';
+}
+
+.cerco-reg {
+    font-family: 'CercoDEMO-Regular';
+}
+
+.cerco-light {
+    font-family: 'CercoDEMO-Light';
+}
+
+.size {
+    font-size: 2.5rem;
+}
+
+.brown-dot {
+    height: 10px;
+    width: 10px;
+    background-color: brown;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 5px;
+}
+
+.navbar-brand {
+    display: flex;
+    justify-content: space-between;
+    font-family: 'CercoDEMO-Bold';
+}
+
+.container-fluid {
+    background-color: #EDEDED;
+}
+
+.card {
+    border-radius: 20px;
+    background-color: #D9D9D9;
+}
+
+.card-title {
+    font-family: 'CercoDEMO-Bold';
+    color: #2196F3;
+    text-transform: uppercase;
+    text-align: center;
+}
+
+.card-text {
+    font-family: 'CercoDEMO-Light';
+    margin-bottom: 0.5em;
+}
+
+.right {
+    text-align: right;
+}
+
+.todo {
+    margin-left: 1.5em;
+    display: flex;
+    justify-content: space-between;
+}
+
+.flex {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+p {
+    font-family: 'CercoDEMO-Light';
+}
+
+.btn {
+    font-family: 'CercoDEMO-Regular';
+    margin-top: 1em;
+}
+
+.btn-primary {
+    margin-bottom: -1.7em;
+}
+
+.shared-tasks {
+    margin-left: 1.5em;
+    display: flex;
+    justify-content: space-between;
+}
+
+.list-group-item {
+    border: none;
+}
+
+.btn2 {
+    background: linear-gradient(rgba(76,175,80,1) 0%, rgba(33,150,243,1) 100%);
+}
+
+.form-label {
+    font-family: 'CercoDEMO-Light';
+}
+
+.footer-dark {
+    padding:50px 0;
+    color:#f0f9ff;
+    background-color:#282d32;
+  }
+  
+  .footer-dark h3 {
+    margin-top:0;
+    margin-bottom:12px;
+    font-weight:bold;
+    font-size:16px;
+  }
+  
+  .footer-dark ul {
+    padding:0;
+    list-style:none;
+    line-height:1.6;
+    font-size:14px;
+    margin-bottom:0;
+  }
+  
+  .footer-dark ul a {
+    color:inherit;
+    text-decoration:none;
+    opacity:0.6;
+  }
+  
+  .footer-dark ul a:hover {
+    opacity:0.8;
+  }
+
+  
+  .footer-dark .item.social > a {
+    font-size:20px;
+    width:36px;
+    height:36px;
+    line-height:36px;
+    display:inline-block;
+    text-align:center;
+    border-radius:50%;
+    box-shadow:0 0 0 1px rgba(255,255,255,0.4);
+    margin:0 8px;
+    color:#fff;
+    opacity:0.75;
+  }
+  
+  .footer-dark .item.social > a:hover {
+    opacity:0.9;
+  }
+  
+  .footer-dark .copyright {
+    text-align:center;
+    padding-top:24px;
+    opacity:0.3;
+    font-size:13px;
+    margin-bottom:0;
+  }
+
+
+  /*------------------RESPONSIVE----------------------*/
+
+    
+  @media (max-width:767px) {
+    .footer-dark .item:not(.social) {
+      text-align:center;
+      padding-bottom:20px;
+    }
+  }
+  
+  .footer-dark .item.text {
+    margin-bottom:36px;
+  }
+  
+  @media (max-width:767px) {
+    .footer-dark .item.text {
+      margin-bottom:0;
+    }
+  }
+  
+  .footer-dark .item.text p {
+    opacity:0.6;
+    margin-bottom:0;
+  }
+  
+  .footer-dark .item.social {
+    text-align:center;
+  }
+  
+  @media (max-width:991px) {
+    .footer-dark .item.social {
+      text-align:center;
+      margin-top:20px;
+    }
+  }
