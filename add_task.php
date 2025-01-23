@@ -2,6 +2,15 @@
 session_start();
 include_once('./connexion.php');
 
+if (!isset($_SESSION['user_id'])) {
+    // Message pour rediriger
+    echo '<div style="text-align: center; margin-top: 50px;">';
+    echo '<h2 class="cerco">You must have logged in to acces this page</h2>';
+    echo '<a href="login.php" class="cerco-light"style="display: inline-block; margin-top: 20px; padding: 10px 20px; background-color: #007bff; color: white; text-decoration: none; border-radius: 5px;">LOGIN</a>';
+    echo '</div>';
+    exit();
+}
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $name = isset($_POST['name']) ? trim($_POST['name']) : '';
     $description = isset($_POST['description']) ? trim($_POST['description']) : '';
@@ -20,10 +29,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             header('Location: index.php');
             exit();
         } catch (PDOException $e) {
-            echo "Erreur lors de l'ajout de la tâche : " . $e->getMessage();
+            echo "An error occured adding a new task : " . $e->getMessage();
         }
     } else {
-        echo "Veuillez remplir tous les champs.";
+        echo "Please fill up all the form";
     }
 }
 ?>
@@ -40,20 +49,43 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <link rel="stylesheet" href="./asset./css/style.css">
 </head>
 <body>
+
+<div class="container mt-5">
+    <div class="text-center mb-4">
+        <img src="./asset\img\file-EAZkbufxqK3PMEF2xDQQDY 1.svg" alt="Logo TeamTasker" class="img-fluid" style="max-width: 150px;">
+        <h2 class="green cerco size">ADD TASK</h2>
+    </div>
     
-<form action="./add_task.php" method="POST">
+<form action="./add_task.php" method="POST" class="needs-validation" novalidate>
+    <div class="mb-3">
+        <label for="name" class="form-label">Task name</label>
+        <input type="text" class="form-control cerco-reg" id="name" name="name" required>
+        <div class="invalid-feedback">
+            Please enter a task name
+        </div>
+    </div>
+    <div class="mb-3">
+        <label for="description" class="form-label">Description</label>
+        <input type="text" class="form-control cerco-light" id="description" name="description" required>
+        <div class="invalid-feedback">
+            Please enter a description for the task
+        </div>
+    </div>
+    <div class="mb-3">
+        <label for="due_date" class="form-label">Due date</label>
+        <input type="date" class="form-control cerco-light" id="due_date" name="due_date" required>
+        <div class="invalid-feedback">
+            Mention the due date of the task
+        </div>
+    </div>
+    <button type="submit" class="btn btn-primary">Add a new task !</button>
 
-    <label for="name">Nom de la tâche: </label>
-    <input type="text" name="name" id="name" required>
-
-    <label for="description">Description: </label>
-    <input type="text" name="description" id="description" required>
-
-    <label for="due_date">Date butoire: </label>
-    <input type="date" name="due_date" id="due_date" required>
-
-    <input type="submit" value="J'ajoute cette tâche !">
+    <div class="text-center mt-3">
+        <a href="index.php" class="btn btn2 btn-secondary">Back to homepage</a>
+    </div>
+    
 </form>
+
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>  
 </body>

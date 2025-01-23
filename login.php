@@ -50,7 +50,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 <div class="container mt-5">
     <div class="text-center mb-4">
         <img src="./asset\img\file-EAZkbufxqK3PMEF2xDQQDY 1.svg" alt="Logo TeamTasker" class="img-fluid" style="max-width: 200px;">
-        <h2 class="green cerco">SIGN IN</h2>
+        <h2 class="green cerco">LOGIN</h2>
         <?php if ($alertMessage): ?>
             <div class="alert alert-info">
                 <?php echo htmlspecialchars($alertMessage); ?>
@@ -59,18 +59,21 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     </div>
     <form action="" method="POST">
         <div class="mb-3">
-            <label for="login" class="form-label">Email ou Nom d'utilisateur</label>
+            <label for="login" class="form-label">Mail or Username</label>
             <input type="text" class="form-control" id="login" name="login" required>
         </div>
         <div class="mb-3">
-            <label for="pass" class="form-label">Mot de passe</label>
+            <label for="pass" class="form-label">Password</label>
             <input type="password" class="form-control" id="pass" name="pass" required>
         </div>
-        <button type="submit" class="btn btn2 btn-primary">Connexion</button>
+        <button type="submit" class="btn btn2 btn-primary">Login</button>
     </form>
+
     <div class="text-center mt-3">
-        <a href="index.php" class="btn btn2 btn-secondary">Retour à l'accueil</a>
+        <a href="signing.php" class="btn btn2 btn-success">Create an account</a>
+        <a href="index.php" class="btn btn2 btn-secondary">Back to homepage</a>
     </div>
+    
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>  

@@ -1,6 +1,8 @@
 <?php
 include_once('./connexion.php');
 
+$alertMessage = '';
+
 if ($_SERVER["REQUEST_METHOD"] == "POST"){
     $name = ($_POST['name']);
     $email = ($_POST['email']);
@@ -39,7 +41,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 <div class="container mt-5">
     <div class="text-center mb-4">
         <img src="./asset\img\file-EAZkbufxqK3PMEF2xDQQDY 1.svg" alt="Logo TeamTasker" class="img-fluid" style="max-width: 150px;">
-        <h2 class="green">SIGN IN</h2>
+        <h2 class="green cerco size">SIGN IN</h2>
         <?php if ($alertMessage): ?>
             <div class="alert alert-info">
                 <?php echo htmlspecialchars($alertMessage); ?>
@@ -66,7 +68,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
         <button type="submit" class="btn btn-primary">Sign in !</button>
     </form>
     <div class="text-center mt-3">
-        <a href="index.php" class="btn btn2 btn-secondary">Retour à l'accueil</a>
+        <a href="index.php" class="btn btn2 btn-secondary effect effect-3">Back to homepage</a>
     </div>
 </div>
 

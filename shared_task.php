@@ -41,19 +41,32 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </head>
 <body>
     
-<form action="./add_task.php" method="POST">
-
-    <label for="name">Nom de la tâche: </label>
-    <input type="text" name="name" id="name" required>
-
-    <label for="description">Description: </label>
-    <input type="text" name="description" id="description" required>
-
-    <label for="due_date">Date butoire: </label>
-    <input type="date" name="due_date" id="due_date" required>
-
-    <input type="submit" value="J'ajoute cette tâche !">
+<form action="./add_task.php" method="POST" class="needs-validation" novalidate>
+    <div class="mb-3">
+        <label for="name" class="form-label">Task name</label>
+        <input type="text" class="form-control cerco-reg" id="name" name="name" required>
+        <div class="invalid-feedback">
+            Mention task name
+        </div>
+    </div>
+    <div class="mb-3">
+        <label for="description" class="form-label">Description</label>
+        <input type="text" class="form-control cerco-light" id="description" name="description" required>
+        <div class="invalid-feedback">
+            Mention task description
+        </div>
+    </div>
+    <div class="mb-3">
+        <label for="due_date" class="form-label">Due date</label>
+        <input type="date" class="form-control cerco-light" id="due_date" name="due_date" required>
+        <div class="invalid-feedback">
+            Mention the due date
+        </div>
+    </div>
+    <input type="hidden" name="shared" value="1"> <!-- Champ caché pour indiquer une tâche partagée -->
+    <button type="submit" class="btn btn-primary">Add a shared task !</button>
 </form>
+
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>  
 </body>

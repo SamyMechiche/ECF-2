@@ -66,6 +66,11 @@ time, mark, audio, video {
     margin-right: 5px;
 }
 
+.grey {
+  background-color: #ededed;
+  margin-bottom: 1.5em;
+}
+
 .navbar-brand {
     display: flex;
     justify-content: space-between;
@@ -197,7 +202,6 @@ p {
     font-size:13px;
     margin-bottom:0;
   }
-
 
   /*------------------RESPONSIVE----------------------*/
 
