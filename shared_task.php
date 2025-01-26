@@ -14,16 +14,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $stmt->bindParam(':name', $name, PDO::PARAM_STR);
             $stmt->bindParam(':description', $description, PDO::PARAM_STR);
             $stmt->bindParam(':date', $date, PDO::PARAM_STR);
-
             $stmt->execute();
 
             header('Location: index.php');
             exit();
         } catch (PDOException $e) {
-            echo "Erreur lors de l'ajout de la tâche : " . $e->getMessage();
+            echo "An error occurred while getting the task" . $e->getMessage();
         }
     } else {
-        echo "Veuillez remplir tous les champs.";
+        echo "Please fill all the fields.";
     }
 }
 ?>
@@ -63,7 +62,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             Mention the due date
         </div>
     </div>
-    <input type="hidden" name="shared" value="1"> <!-- Champ caché pour indiquer une tâche partagée -->
+    <input type="hidden" name="shared" value="1">
     <button type="submit" class="btn btn-primary">Add a shared task !</button>
 </form>
 

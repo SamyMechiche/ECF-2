@@ -2,38 +2,37 @@
 session_start();
 include_once('./connexion.php');
 
-$alertMessage = '';
-
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    $login = isset($_POST['login']) ? trim($_POST['login']) : '';
+    $pseudo = isset($_POST['name']) ? trim($_POST['name']) : '';
     $pass = isset($_POST['pass']) ? trim($_POST['pass']) : '';
 
-    if (!empty($login) && !empty($pass)) {
-        try {
-            // Vérifier les informations de connexion
-            $req = $bdd->prepare('SELECT `id_user`, `name`, `email`, `password` FROM `user` WHERE `name` = :login OR `email` = :login');
-            $req->bindParam(':login', $login, PDO::PARAM_STR);
-            $req->execute();
+    if (!empty($pseudo) && !empty($pass)) {
+        $req = $bdd->prepare('SELECT `id_user`, `name`, `email`, `password` FROM `user` WHERE `name` = :pseudo OR `email` = :pseudo');
+        $req->bindParam(':pseudo', $pseudo, PDO::PARAM_STR);
+        $req->execute();
+        
+        
+        
 
-            $user = $req->fetch(PDO::FETCH_ASSOC);
+        $user = $req->fetch(PDO::FETCH_ASSOC);
 
-            if ($user && password_verify($pass, $user['password'])) {
-                $_SESSION['user_id'] = $user['id_user'];
-                $_SESSION['username'] = $user['name'];
+        if ($user && password_verify($pass, $user['password'])) {
+            $_SESSION['user_id'] = $user['id_user'];
+            $_SESSION['username'] = $user['name'];
 
-                header('Location: index.php');
-                exit();
-            } else {
-                $alertMessage = 'Nom d\'utilisateur ou mot de passe incorrect.';
-            }
-        } catch (PDOException $e) {
-            $alertMessage = "Erreur lors de la connexion : " . $e->getMessage();
+            header('Location: index.php');
+            exit();
+        } else {
+            echo 'Wrong username or password.';
         }
     } else {
-        $alertMessage = 'Veuillez remplir tous les champs.';
+        echo 'Please fill all the fields.';
     }
+
+
 }
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -51,16 +50,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     <div class="text-center mb-4">
         <img src="./asset\img\file-EAZkbufxqK3PMEF2xDQQDY 1.svg" alt="Logo TeamTasker" class="img-fluid" style="max-width: 200px;">
         <h2 class="green cerco">LOGIN</h2>
-        <?php if ($alertMessage): ?>
-            <div class="alert alert-info">
-                <?php echo htmlspecialchars($alertMessage); ?>
-            </div>
-        <?php endif; ?>
+
     </div>
     <form action="" method="POST">
         <div class="mb-3">
             <label for="login" class="form-label">Mail or Username</label>
-            <input type="text" class="form-control" id="login" name="login" required>
+            <input type="text" class="form-control" id="login" name="name" required>
         </div>
         <div class="mb-3">
             <label for="pass" class="form-label">Password</label>

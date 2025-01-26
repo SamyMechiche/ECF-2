@@ -2,38 +2,43 @@
 session_start();
 include_once('./connexion.php');
 
+// Vérifie que task_id est dans l'URL
 if (!isset($_GET['task_id'])) {
-    echo "ID de la tâche non fourni.";
+    echo "Task id not found";
     exit();
 }
 
 $task_id = $_GET['task_id'];
 
 try {
+    // On récup toutes les colonnes des tâches
     $sql = "SELECT * FROM `task` WHERE id_task = :task_id";
     $stmt = $bdd->prepare($sql);
     $stmt->bindParam(':task_id', $task_id, PDO::PARAM_INT);
     $stmt->execute();
     $task = $stmt->fetch(PDO::FETCH_ASSOC);
 
+    // Existence de la tâche
     if (!$task) {
-        echo "Tâche non trouvée.";
+        echo "Task not found";
         exit();
     }
 } catch (PDOException $e) {
-    echo "Erreur lors de la récupération de la tâche : " . $e->getMessage();
+    echo "An error occurred while getting the task" . $e->getMessage();
     exit();
 }
 
+// Check if the form is submitted
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $name = isset($_POST['name']) ? trim($_POST['name']) : '';
     $description = isset($_POST['description']) ? trim($_POST['description']) : '';
     $due_date = isset($_POST['due_date']) ? trim($_POST['due_date']) : '';
 
+    // Validate form fields
     if (!empty($name) && !empty($description) && !empty($due_date)) {
         try {
-            // Mettre à jour les informations de la tâche
-            $sql = "UPDATE `task` SET name = :name, description = :description, due_date = :due_date WHERE id_task = :task_id";
+            // on update la task
+            $sql = "UPDATE `task` SET name = :name, description = :description, due_date = :due_date, updated = NOW() WHERE id_task = :task_id";
             $stmt = $bdd->prepare($sql);
             $stmt->bindParam(':name', $name, PDO::PARAM_STR);
             $stmt->bindParam(':description', $description, PDO::PARAM_STR);
@@ -41,13 +46,14 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $stmt->bindParam(':task_id', $task_id, PDO::PARAM_INT);
             $stmt->execute();
 
+            // Rdirige vers index quand task changée
             header("Location: index.php");
             exit();
         } catch (PDOException $e) {
-            echo "Erreur lors de la mise à jour de la tâche : " . $e->getMessage();
+            echo "An error occurred while updating the task" . $e->getMessage();
         }
     } else {
-        echo "Veuillez remplir tous les champs.";
+        echo "Fill up all the form";
     }
 }
 ?>
@@ -64,23 +70,37 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 <body>
 
 <div class="container mt-5">
-    <h2>Modifier la Tâche</h2>
-    <form action="" method="POST">
-        <div class="mb-3">
-            <label for="name" class="form-label">Nouveau nom</label>
-            <input type="text" class="form-control" id="name" name="name" value="<?php echo htmlspecialchars($task['name']); ?>" required>
+    <div class="text-center mb-4">
+        <img src="./asset\img\file-EAZkbufxqK3PMEF2xDQQDY 1.svg" alt="Logo TeamTasker" class="img-fluid" style="max-width: 150px;">
+        <h2 class="green cerco size">UPDATE TASK</h2>
+    </div>
+
+<form action="./update_task.php?task_id=<?php echo htmlspecialchars($task_id); ?>" method="POST" class="needs-validation" novalidate>
+    <div class="mb-3">
+        <label for="name" class="form-label">Task name</label>
+        <input type="text" class="form-control cerco-reg" id="name" name="name" value="<?php echo htmlspecialchars($task['name']); ?>" required>
+        <div class="invalid-feedback">
+            Please enter a task name
         </div>
-        <div class="mb-3">
-            <label for="description" class="form-label">Description</label>
-            <input type="text" class="form-control" id="description" name="description" value="<?php echo htmlspecialchars($task['description']); ?>" required>
+    </div>
+    <div class="mb-3">
+        <label for="description" class="form-label">Description</label>
+        <input type="text" class="form-control cerco-light" id="description" name="description" value="<?php echo htmlspecialchars($task['description']); ?>" required>
+        <div class="invalid-feedback">
+            Please enter a description for the task
         </div>
-        <div class="mb-3">
-            <label for="due_date" class="form-label">Date butoire</label>
-            <input type="date" class="form-control" id="due_date" name="due_date" value="<?php echo htmlspecialchars($task['due_date']); ?>" required>
+    </div>
+    <div class="mb-3">
+        <label for="due_date" class="form-label">Due date</label>
+        <input type="date" class="form-control cerco-light" id="due_date" name="due_date" value="<?php echo htmlspecialchars($task['due_date']); ?>" required>
+        <div class="invalid-feedback">
+            Mention the due date of the task
         </div>
-        <button type="submit" class="btn btn-primary">Je valide ces changements</button>
-    </form>
-</div>
+    </div>
+    <button type="submit" class="btn btn-primary">Change task !</button>
+</form>
+
+
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>  
 </body>

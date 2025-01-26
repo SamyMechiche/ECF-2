@@ -2,18 +2,20 @@
 session_start();
 include_once('./connexion.php');
 
-$isLoggedIn = isset($_SESSION['username']);
-
+// Check is user log
+$isLoggedIn = isset($_SESSION['username']) && isset($_SESSION['user_id']);
+$userId = $_SESSION['user_id']; // Récup l'id de l'user
 $tasks = [];
 $shared_tasks = [];
 
+// Logout
 if (isset($_POST['logout'])) {
     session_destroy();
     header("Location: index.php");
     exit();
 }
 
-// Mettre à jour le statut de la tâche si la checkbox est cochée
+// Check si checked est checké
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['task_id'])) {
     $taskId = intval($_POST['task_id']);
     $isCompleted = isset($_POST['completed']) ? 1 : 0;
@@ -29,18 +31,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['task_id'])) {
     }
 }
 
+// Récup les tâches propres à l'id connecté
 try {
-    // Récupérer les tâches
-    $sql = "SELECT id_task, name, description, due_date, completed FROM `task` ORDER BY `due_date`";
+    $sql = "SELECT task.id_task, task.name, task.description, task.due_date, task.completed 
+            FROM `task`
+            INNER JOIN `user_task` ON task.id_task = user_task.id_task
+            WHERE user_task.id_user = :user_id
+            ORDER BY task.due_date";
     $stmt = $bdd->prepare($sql);
+    $stmt->bindParam(':user_id', $userId, PDO::PARAM_INT);
     $stmt->execute();
     $tasks = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
 } catch (PDOException $e) {
-    echo "Erreur lors de la récupération des tâches : " . $e->getMessage();
+    echo "An error occurred while getting the tasks : " . $e->getMessage();
 }
-
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -82,10 +88,10 @@ try {
 <div class="todo">
 <h2 class="green cerco size">TO DO</h2>
     <?php if ($isLoggedIn): ?>
-        <!-- Bouton actif si connecté -->
+        <!-- Bouton quand log -->
         <a href="./add_task.php"><button type="submit" name="add" class="btn btn-info">Add a new task</button></a>
     <?php else: ?>
-        <!-- Message si non connecté -->
+        <!-- Message si pas log-->
         <div class="alert alert-warning cerco-light" role="alert">
             You must have logged in to add a new task.
             <br>
@@ -98,11 +104,16 @@ try {
         <li class="list-group-item">
             <div class="card" style="width: 18rem;">
                 <div class="card-body">
-                    <h5 class="card-title"><?php echo htmlspecialchars($task['name']); ?></h5>
+                    <h5 class="card-title">
+                        <?php echo htmlspecialchars($task['name']); ?>
+                        <?php if (!empty($task['updated'])): ?>
+                            <small class="text-muted">(updated)</small>
+                        <?php endif; ?>
+                    </h5>
                     <p class="card-text"><span class="brown-dot"></span><?php echo htmlspecialchars($task['description']); ?></p>
                     <p class="card-text">Date butoire: <?php echo htmlspecialchars($task['due_date']); ?></p>
 
-                    <!-- Formulaire pour cocher la tâche comme terminée -->
+                    <!-- la dixite checkbox tah les oufs -->
                     <form action="" method="POST" class="d-flex align-items-center">
                         <input type="hidden" name="task_id" value="<?php echo $task['id_task']; ?>">
                         <label for="completed-<?php echo $task['id_task']; ?>" class="form-check-label me-2 tb cerco-reg">
@@ -120,7 +131,7 @@ try {
 
                     <div class="right">
                         <a href="delete_task.php?task_id=<?php echo $task['id_task']; ?>" class="card-link"><img src="./asset/img/trash-01.svg" alt="picto poubelle"></a>
-                        <a href="update_task.php?task_id=<?php echo $task['id_task']; ?>" class="card-link"><img src="./asset/img/settings-01.svg" alt="picto settings"></a>
+                        <a href="update_task.php?task_id=<?php echo $task['id_task']; ?>" class="card-link rotate"><img class="rotate" src="./asset/img/settings-01.svg" alt="picto settings"></a>
                     </div>
                 </div>
             </div>
@@ -145,7 +156,7 @@ try {
                     <button type="submit" name="done" class="btn btn-primary cerco-reg">DONE</button>
                     <div class="right">
                         <a href="delete_task.php?task_id=<?php echo $task['id_task']; ?>" class="card-link"><img src="./asset/img/trash-01.svg" alt="picto poubelle"></a>
-                        <a href="update_task.php?task_id=<?php echo $task['id_task']; ?>" class="card-link"><img src="./asset/img/settings-01.svg" alt="picto settings"></a>
+                        <a href="update_task.php?task_id=<?php echo $task['id_task']; ?>" class="card-link"><img class="rotate" src="./asset/img/settings-01.svg" alt="picto settings"></a>
                     </div>
                 </div>
             </div>

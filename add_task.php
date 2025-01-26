@@ -11,30 +11,41 @@ if (!isset($_SESSION['user_id'])) {
     exit();
 }
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $name = isset($_POST['name']) ? trim($_POST['name']) : '';
     $description = isset($_POST['description']) ? trim($_POST['description']) : '';
-    $date = isset($_POST['due_date']) ? trim($_POST['due_date']) : '';
+    $dueDate = isset($_POST['due_date']) ? trim($_POST['due_date']) : '';
 
-    if (!empty($name) && !empty($description) && !empty($date)) {
+    if (!empty($name) && !empty($description) && !empty($dueDate)) {
         try {
-            $sql = "INSERT INTO `task` (`name`, `description`, `due_date`) VALUES (:name, :description, :date)";
-            $stmt = $bdd->prepare($sql);
-            $stmt->bindParam(':name', $name, PDO::PARAM_STR);
-            $stmt->bindParam(':description', $description, PDO::PARAM_STR);
-            $stmt->bindParam(':date', $date, PDO::PARAM_STR);
+            // Insérer la tâche dans la table `task`
+            $sqlTask = "INSERT INTO task (name, description, due_date, completed) 
+                        VALUES (:name, :description, :due_date, 0)";
+            $stmtTask = $bdd->prepare($sqlTask);
+            $stmtTask->bindParam(':name', $name, PDO::PARAM_STR);
+            $stmtTask->bindParam(':description', $description, PDO::PARAM_STR);
+            $stmtTask->bindParam(':due_date', $dueDate, PDO::PARAM_STR);
+            $stmtTask->execute();
 
-            $stmt->execute();
+            // Récupérer ID tâche
+            $taskId = $bdd->lastInsertId();
 
-            header('Location: index.php');
-            exit();
+            // Match user id user task normalement mais ça marche pas lol
+            $sqlUserTask = "INSERT INTO user_task (id_user, id_task) VALUES (:id_user, :id_task)";
+            $stmtUserTask = $bdd->prepare($sqlUserTask);
+            $stmtUserTask->bindParam(':id_user', $_SESSION['user_id'], PDO::PARAM_INT);
+            $stmtUserTask->bindParam(':id_task', $taskId, PDO::PARAM_INT);
+            $stmtUserTask->execute();
+
+            echo "<p style='font-family: 'CercoDEMO-Regular';'>Tâche ajoutée avec succès ! </p>";
         } catch (PDOException $e) {
-            echo "An error occured adding a new task : " . $e->getMessage();
+            echo "<p style='font-family: 'CercoDEMO-Regular';'>Erreur lors de l'ajout de la tâche :  </p>" . $e->getMessage();
         }
     } else {
-        echo "Please fill up all the form";
+        echo "<p style='font-family: 'CercoDEMO-Regular';'>Veuillez remplir tous les champs. </p>";
     }
 }
+
 ?>
 
 

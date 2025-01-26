@@ -1,30 +1,32 @@
 <?php
+session_start();
 include_once('./connexion.php');
 
-$alertMessage = '';
-
-if ($_SERVER["REQUEST_METHOD"] == "POST"){
-    $name = ($_POST['name']);
-    $email = ($_POST['email']);
-    $pass = ($_POST['password']);
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $name = trim($_POST['name']);
+    $email = trim($_POST['email']);
+    $pass = trim($_POST['pass']);
 
     $hash = password_hash($pass, PASSWORD_BCRYPT);
 
     try {
-        $sql = "INSERT INTO `user` (`name`, `email`, `password`, `signing_date`) VALUES ( :name, :email, :password, NOW())";
+        $sql = "INSERT INTO `user` (`name`, `email`, `password`, `signing_date`) VALUES (:name, :email, :password, NOW())";
         $stmt = $bdd->prepare($sql);
-        $stmt->bindParam('name', $name, PDO::PARAM_STR);
-        $stmt->bindParam('email', $email, PDO::PARAM_STR);
-        $stmt->bindParam('password', $hash, PDO::PARAM_STR);
+        $stmt->bindParam(':name', $name, PDO::PARAM_STR);
+        $stmt->bindParam(':email', $email, PDO::PARAM_STR);
+        $stmt->bindParam(':password', $hash, PDO::PARAM_STR);
         $stmt->execute();
-        
-        header('Location: index.php');
 
-    } catch (PDOException $e){
+        
+
+        header('Location: index.php');
+        exit();
+    } catch (PDOException $e) {
         echo "Erreur : " . $e->getMessage();
     }
 }
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
