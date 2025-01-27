@@ -5,3 +5,11 @@ lien figma: https://www.figma.com/design/Ym08e9Uqb35GizNqK067gq/ECF-2-TO-DO-list
 
 LE FIGMA N'A AUCUN RAPPORT ET JE M'EN REND BIEN COMPTE, C'EST UNIQUEMENT DU AU TEMPS QUE J'AI MIS A FAIRE TOUTE LA PARTIE BACK (et accéssoirement le fait que je suis un peu nul)
 Le MCDC/MLD est dans ce même figma d'ailleurs
+
+id de connexion: 
+
+username(email): samy(mechiche.samysm@gmail.com)
+pass: Samy-smcr1290
+
+username(email): Mel00w(?)
+pass: 123147
