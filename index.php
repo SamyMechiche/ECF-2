@@ -2,7 +2,7 @@
 session_start();
 include_once('./connexion.php');
 
-// Check is user log
+// Check si user est log
 $isLoggedIn = isset($_SESSION['username']) && isset($_SESSION['user_id']);
 $userId = $_SESSION['user_id']; // Récup l'id de l'user
 $tasks = [];
@@ -88,7 +88,6 @@ try {
 <div class="todo">
 <h2 class="green cerco size">TO DO</h2>
     <?php if ($isLoggedIn): ?>
-        <!-- Bouton quand log -->
         <a href="./add_task.php"><button type="submit" name="add" class="btn btn-info">Add a new task</button></a>
     <?php else: ?>
         <!-- Message si pas log-->

@@ -2,29 +2,46 @@
 session_start();
 include_once('./connexion.php');
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+if (!isset($_SESSION['user_id'])) {
+    echo '<div style="text-align: center; margin-top: 50px;">';
+    echo '<h2 class="cerco">You must have logged in to acces this page</h2>';
+    echo '<a href="login.php" class="cerco-light"style="display: inline-block; margin-top: 20px; padding: 10px 20px; background-color: #007bff; color: white; text-decoration: none; border-radius: 5px;">LOGIN</a>';
+    echo '</div>';
+    exit();
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $name = isset($_POST['name']) ? trim($_POST['name']) : '';
     $description = isset($_POST['description']) ? trim($_POST['description']) : '';
-    $date = isset($_POST['due_date']) ? trim($_POST['due_date']) : '';
+    $dueDate = isset($_POST['due_date']) ? trim($_POST['due_date']) : '';
 
-    if (!empty($name) && !empty($description) && !empty($date)) {
+    if (!empty($name) && !empty($description) && !empty($dueDate)) {
         try {
-            $sql = "INSERT INTO `task` (`name`, `description`, `due_date`) VALUES (:name, :description, :date)";
-            $stmt = $bdd->prepare($sql);
-            $stmt->bindParam(':name', $name, PDO::PARAM_STR);
-            $stmt->bindParam(':description', $description, PDO::PARAM_STR);
-            $stmt->bindParam(':date', $date, PDO::PARAM_STR);
-            $stmt->execute();
+            $sqlTask = "INSERT INTO task (name, description, due_date, completed) 
+                        VALUES (:name, :description, :due_date, 0)";
+            $stmtTask = $bdd->prepare($sqlTask);
+            $stmtTask->bindParam(':name', $name, PDO::PARAM_STR);
+            $stmtTask->bindParam(':description', $description, PDO::PARAM_STR);
+            $stmtTask->bindParam(':due_date', $dueDate, PDO::PARAM_STR);
+            $stmtTask->execute();
 
-            header('Location: index.php');
-            exit();
+            $taskId = $bdd->lastInsertId();
+
+            $sqlUserTask = "INSERT INTO user_task (id_user, id_task) VALUES (:id_user, :id_task)";
+            $stmtUserTask = $bdd->prepare($sqlUserTask);
+            $stmtUserTask->bindParam(':id_user', $_SESSION['user_id'], PDO::PARAM_INT);
+            $stmtUserTask->bindParam(':id_task', $taskId, PDO::PARAM_INT);
+            $stmtUserTask->execute();
+
+            echo "<p style='font-family: 'CercoDEMO-Regular';'>Tâche ajoutée avec succès ! </p>";
         } catch (PDOException $e) {
-            echo "An error occurred while getting the task" . $e->getMessage();
+            echo "<p style='font-family: 'CercoDEMO-Regular';'>Erreur lors de l'ajout de la tâche :  </p>" . $e->getMessage();
         }
     } else {
-        echo "Please fill all the fields.";
+        echo "<p style='font-family: 'CercoDEMO-Regular';'>Veuillez remplir tous les champs. </p>";
     }
 }
+
 ?>
 
 

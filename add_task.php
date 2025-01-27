@@ -3,7 +3,6 @@ session_start();
 include_once('./connexion.php');
 
 if (!isset($_SESSION['user_id'])) {
-    // Message pour rediriger
     echo '<div style="text-align: center; margin-top: 50px;">';
     echo '<h2 class="cerco">You must have logged in to acces this page</h2>';
     echo '<a href="login.php" class="cerco-light"style="display: inline-block; margin-top: 20px; padding: 10px 20px; background-color: #007bff; color: white; text-decoration: none; border-radius: 5px;">LOGIN</a>';
@@ -18,7 +17,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if (!empty($name) && !empty($description) && !empty($dueDate)) {
         try {
-            // Insérer la tâche dans la table `task`
             $sqlTask = "INSERT INTO task (name, description, due_date, completed) 
                         VALUES (:name, :description, :due_date, 0)";
             $stmtTask = $bdd->prepare($sqlTask);
@@ -27,10 +25,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $stmtTask->bindParam(':due_date', $dueDate, PDO::PARAM_STR);
             $stmtTask->execute();
 
-            // Récupérer ID tâche
             $taskId = $bdd->lastInsertId();
 
-            // Match user id user task normalement mais ça marche pas lol
+            // Match user id user task
             $sqlUserTask = "INSERT INTO user_task (id_user, id_task) VALUES (:id_user, :id_task)";
             $stmtUserTask = $bdd->prepare($sqlUserTask);
             $stmtUserTask->bindParam(':id_user', $_SESSION['user_id'], PDO::PARAM_INT);

@@ -1,19 +1,18 @@
 <?php
-session_start();
+session_start(); // Démarrage de la grand-mère à la session
 include_once('./connexion.php');
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $pseudo = isset($_POST['name']) ? trim($_POST['name']) : '';
     $pass = isset($_POST['pass']) ? trim($_POST['pass']) : '';
 
+    // Différent de vide 
     if (!empty($pseudo) && !empty($pass)) {
         $req = $bdd->prepare('SELECT `id_user`, `name`, `email`, `password` FROM `user` WHERE `name` = :pseudo OR `email` = :pseudo');
         $req->bindParam(':pseudo', $pseudo, PDO::PARAM_STR);
         $req->execute();
         
-        
-        
-
+        // Fetch les infos de user
         $user = $req->fetch(PDO::FETCH_ASSOC);
 
         if ($user && password_verify($pass, $user['password'])) {
@@ -28,8 +27,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     } else {
         echo 'Please fill all the fields.';
     }
-
-
 }
 ?>
 
