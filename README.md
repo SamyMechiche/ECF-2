@@ -20,8 +20,8 @@ Bienvenue dans **TeamTasker**, une application web collaborative permettant de g
 
 1. **Cloner le dépôt :**
    ```bash
-   git clone https://github.com/ton-repo/todo-share.git
-   cd todo-share
+   git clone https://github.com/SamyMechiche/ECF-2.git
+   cd ECF-2
    ```
 
 2. **Configurer la base de données :**
