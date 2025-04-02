@@ -1,19 +1,18 @@
 # ✅ Gestion d'une To-Do List Partagée
 
-Bienvenue dans **To-Do Share**, une application web collaborative permettant de gérer des listes de tâches partagées de manière intuitive et efficace. 🚀
+Bienvenue dans **TeamTasker**, une application web collaborative permettant de gérer des listes de tâches partagées de manière intuitive et efficace. 🚀
 
 ## 🎯 Fonctionnalités
 
 - 📝 **Ajout, modification et suppression de tâches**
-- 👥 **Gestion des utilisateurs et partage de listes**
-- 📅 **Système de dates d'échéance et rappels**
+- 👥 **Gestion des utilisateurs**
+- 📅 **Système de dates d'échéance**
 - 📊 **Suivi de progression des tâches**
-- 🌙 **Mode sombre pour un meilleur confort visuel**
 
 ## 🛠️ Technologies utilisées
 
-- **Frontend :** HTML, CSS, JavaScript (Vanilla / Vue.js en prévision) 🎨
-- **Backend :** PHP (MVC), MySQL 🐘
+- **Frontend :** HTML, CSS, JavaScript🎨
+- **Backend :** PHP, MySQL 🐘
 - **Authentification :** Sessions PHP 🔐
 - **Versionning :** Git & GitHub 🛠️
 
