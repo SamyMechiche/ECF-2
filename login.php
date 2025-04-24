@@ -1,5 +1,5 @@
 <?php
-session_start(); // Démarrage de la grand-mère à la session
+session_start();
 include_once('./connexion.php');
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
